@@ -4,6 +4,8 @@
  */
 package vista;
 
+import clase.ListaEstudiantes;
+
 /**
  *
  * @author PC
@@ -14,12 +16,14 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     private AgregarEstudiantes agregarestudiantes;
-            
+    
+    
             
     public MainFrame() {
         initComponents();
-        setExtendedState(MainFrame.MAXIMIZED_BOTH);
         agregarestudiantes = new AgregarEstudiantes();
+        setExtendedState(MainFrame.MAXIMIZED_BOTH);
+        
     }
 
     /**
@@ -33,6 +37,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jToolBar1 = new javax.swing.JToolBar();
+        btnAgregarEstudiantesToolBar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -40,7 +45,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setText("jButton1");
+        btnAgregarEstudiantesToolBar.setText("Agregar Estudiantes");
+        btnAgregarEstudiantesToolBar.setFocusable(false);
+        btnAgregarEstudiantesToolBar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAgregarEstudiantesToolBar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAgregarEstudiantesToolBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarEstudiantesToolBarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnAgregarEstudiantesToolBar);
+
+        jButton1.setText("Lista Estudiantes");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -62,8 +78,8 @@ public class MainFrame extends javax.swing.JFrame {
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 887, Short.MAX_VALUE))
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 885, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -80,10 +96,14 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAgregarEstudiantesToolBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEstudiantesToolBarActionPerformed
         this.jDesktopPane1.add(agregarestudiantes);
         agregarestudiantes.setLocation(50, 50);
         agregarestudiantes.setVisible(true);
+    }//GEN-LAST:event_btnAgregarEstudiantesToolBarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        agregarestudiantes.getListaestudiantes().listarEstudiantes();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -122,6 +142,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarEstudiantesToolBar;
     private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JToolBar jToolBar1;

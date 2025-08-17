@@ -36,6 +36,7 @@ public class ListaEstudiantes {
         for (int i = 0; i < listaEstudiantes.size(); i++) {
             System.out.println((i + 1) + ". " + listaEstudiantes.get(i));
         }
+        
     }
 
     public boolean eliminarPorCedula(String cedula) {

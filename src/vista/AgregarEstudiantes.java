@@ -4,6 +4,11 @@
  */
 package vista;
 
+import clase.Estudiante;
+import clase.ListaEstudiantes;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author PC
@@ -13,7 +18,18 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
     /**
      * Creates new form AgregarEstudiantes
      */
+    private ListaEstudiantes listaestudiantes;
+
+    public ListaEstudiantes getListaestudiantes() {
+        return listaestudiantes;
+    }
+
+    public void setListaestudiantes(ListaEstudiantes listaestudiantes) {
+        this.listaestudiantes = listaestudiantes;
+    }
+
     public AgregarEstudiantes() {
+        listaestudiantes = new ListaEstudiantes();
         initComponents();
 
     }
@@ -42,16 +58,20 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         ftfFechaIngreso = new javax.swing.JFormattedTextField();
         ftfFechaEgreso = new javax.swing.JFormattedTextField();
         ftfFechaNacimiento = new javax.swing.JFormattedTextField();
-        txfCarnet = new javax.swing.JTextField();
         txfCarrera = new javax.swing.JTextField();
         txfCedula = new javax.swing.JTextField();
         txfNombre = new javax.swing.JTextField();
         txfDireccion = new javax.swing.JTextField();
-        txfTelefono = new javax.swing.JTextField();
         txfEmail = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        ftfTelefono = new javax.swing.JFormattedTextField();
+        ftfCarnet = new javax.swing.JFormattedTextField();
+
+        setClosable(true);
+        setTitle("Agregar Estudiante");
+        setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Registro de Estudiantes");
@@ -87,6 +107,11 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         lblEmail.setText("Email:");
 
         ftfFechaIngreso.setEditable(false);
+        try {
+            ftfFechaIngreso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##-##-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         ftfFechaIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ftfFechaIngresoActionPerformed(evt);
@@ -94,6 +119,11 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         });
 
         ftfFechaEgreso.setEditable(false);
+        try {
+            ftfFechaEgreso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##-##-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         ftfFechaEgreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ftfFechaEgresoActionPerformed(evt);
@@ -101,13 +131,16 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         });
 
         ftfFechaNacimiento.setEditable(false);
+        try {
+            ftfFechaNacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##-##-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         ftfFechaNacimiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ftfFechaNacimientoActionPerformed(evt);
             }
         });
-
-        txfCarnet.setEditable(false);
 
         txfCarrera.setEditable(false);
         txfCarrera.addActionListener(new java.awt.event.ActionListener() {
@@ -119,26 +152,58 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         txfCedula.setEditable(false);
 
         txfNombre.setEditable(false);
-
-        txfDireccion.setEditable(false);
-
-        txfTelefono.setEditable(false);
-
-        txfEmail.setEditable(false);
-
-        jButton4.setText("Guardar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+        txfNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txfNombreKeyTyped(evt);
             }
         });
 
-        jButton5.setText("Buscar");
+        txfDireccion.setEditable(false);
 
-        jButton6.setText("Eliminar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        txfEmail.setEditable(false);
+        txfEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txfEmailKeyTyped(evt);
+            }
+        });
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        ftfTelefono.setEditable(false);
+        try {
+            ftfTelefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        ftfTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftfTelefonoActionPerformed(evt);
+            }
+        });
+
+        ftfCarnet.setEditable(false);
+        try {
+            ftfCarnet.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#######")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        ftfCarnet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftfCarnetActionPerformed(evt);
             }
         });
 
@@ -166,20 +231,20 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
                             .addComponent(ftfFechaIngreso)
                             .addComponent(ftfFechaEgreso)
                             .addComponent(ftfFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txfCarnet)
                             .addComponent(txfCarrera)
                             .addComponent(txfCedula)
                             .addComponent(txfNombre)
                             .addComponent(txfDireccion)
-                            .addComponent(txfTelefono)
-                            .addComponent(txfEmail)))
+                            .addComponent(txfEmail)
+                            .addComponent(ftfTelefono)
+                            .addComponent(ftfCarnet, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(68, 68, 68)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(293, 293, 293))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(172, 172, 172)
@@ -192,9 +257,9 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblCarnet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txfCarnet, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCarnet, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftfCarnet, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -226,17 +291,17 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+                    .addComponent(ftfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txfEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -247,9 +312,7 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -271,36 +334,111 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfCarreraActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (txfEmail.isEditable()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            int carnet = Integer.parseInt(ftfCarnet.getText().toString());
+            LocalDate fechaIngreso = LocalDate.parse(ftfFechaIngreso.getText().toString(), formatter);
+            LocalDate fechaEgreso = LocalDate.parse(ftfFechaEgreso.getText().toString(), formatter);
+            String idCarrera = txfCarrera.getText().toString();
+            String cedula = txfCedula.getText().toString();
+            String nombre = txfNombre.getText().toString();
+            LocalDate fechaNacimiento = LocalDate.parse(ftfFechaNacimiento.getText().toString(), formatter);
+            String direccion = txfDireccion.getText().toString();
+            String email = txfEmail.getText().toString();
+            int telefono = Integer.parseInt(ftfTelefono.getText().toString());
+
+            // Crear objeto estudiante
+            Estudiante estudiante = new Estudiante(
+                    carnet,
+                    fechaIngreso,
+                    fechaEgreso,
+                    idCarrera,
+                    cedula,
+                    nombre,
+                    fechaNacimiento,
+                    direccion,
+                    telefono,
+                    email
+            );
+            listaestudiantes.agregarEstudiante(estudiante);
+            ftfFechaIngreso.setText("");
+            ftfFechaEgreso.setText("");
+            ftfFechaNacimiento.setText("");
+            ftfCarnet.setText("");
+            txfCarrera.setText("");
+            txfCedula.setText("");
+            txfNombre.setText("");
+            txfDireccion.setText("");
+            ftfTelefono.setText("");
+            txfEmail.setText("");
+
+            ftfFechaIngreso.setEditable(true);
+            ftfFechaEgreso.setEditable(false);
+            ftfFechaNacimiento.setEditable(false);
+            ftfCarnet.setEditable(false);
+            txfCarrera.setEditable(false);
+            txfCedula.setEditable(false);
+            txfNombre.setEditable(false);
+            txfDireccion.setEditable(false);
+            ftfTelefono.setEditable(false);
+            txfEmail.setEditable(false);
+            btnBuscar.setEnabled(true);
+            btnEliminar.setEnabled(true);
 
         } else {
             ftfFechaIngreso.setEditable(true);
             ftfFechaEgreso.setEditable(true);
             ftfFechaNacimiento.setEditable(true);
-            txfCarnet.setEditable(true);
+            ftfCarnet.setEditable(true);
             txfCarrera.setEditable(true);
             txfCedula.setEditable(true);
             txfNombre.setEditable(true);
             txfDireccion.setEditable(true);
-            txfTelefono.setEditable(true);
+            ftfTelefono.setEditable(true);
             txfEmail.setEditable(true);
+            btnBuscar.setEnabled(false);
+            btnEliminar.setEnabled(false);
 
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void ftfTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfTelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftfTelefonoActionPerformed
+
+    private void ftfCarnetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftfCarnetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftfCarnetActionPerformed
+
+    private void txfEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfEmailKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '@' && c != '.') {
+            evt.consume();
+        }    }//GEN-LAST:event_txfEmailKeyTyped
+
+    private void txfNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfNombreKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A') | c > 'Z' && c != ' ') {
+            evt.consume();
+        }    }//GEN-LAST:event_txfNombreKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JFormattedTextField ftfCarnet;
     private javax.swing.JFormattedTextField ftfFechaEgreso;
     private javax.swing.JFormattedTextField ftfFechaIngreso;
     private javax.swing.JFormattedTextField ftfFechaNacimiento;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JFormattedTextField ftfTelefono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCarnet;
@@ -313,12 +451,10 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblIdCarrera;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblTelefono;
-    private javax.swing.JTextField txfCarnet;
     private javax.swing.JTextField txfCarrera;
     private javax.swing.JTextField txfCedula;
     private javax.swing.JTextField txfDireccion;
     private javax.swing.JTextField txfEmail;
     private javax.swing.JTextField txfNombre;
-    private javax.swing.JTextField txfTelefono;
     // End of variables declaration//GEN-END:variables
 }
