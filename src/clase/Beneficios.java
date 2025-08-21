@@ -16,7 +16,7 @@ public class Beneficios {
     }
     
      public Beneficios() {
-        this.idBeneficio = 0;
+        this.idBeneficio = 0; 
         this.nomBeneficio = "";
         this.descripcion = "";
         this.montoBeneficio = 0;
@@ -46,7 +46,7 @@ public class Beneficios {
         this.descripcion = descripcion;
     }
 
-    public double isMontoBeneficio() {
+    public double getMontoBeneficio() {
         return montoBeneficio;
     }
 

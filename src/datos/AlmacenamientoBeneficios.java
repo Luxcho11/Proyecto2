@@ -20,9 +20,9 @@ public class AlmacenamientoBeneficios {
     }
     
     //metodo crud
-    public void insertarBenefico (Beneficios bnficio){
+    public void insertarBeneficio (Beneficios bnficios){
         if (this.listaBeneficios != null){
-            this.listaBeneficios.add(bnficio);
+            this.listaBeneficios.add(bnficios);
         }
     }
     

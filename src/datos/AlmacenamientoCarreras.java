@@ -20,7 +20,7 @@ public class AlmacenamientoCarreras {
     }
     
     //metodo crud
-    public void insertarBenefico (Carreras carrera){
+    public void insertarCarrera (Carreras carrera){
         if (this.listaCarreras != null){
             this.listaCarreras.add(carrera);
         }
