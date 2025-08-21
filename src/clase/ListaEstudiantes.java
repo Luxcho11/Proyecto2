@@ -36,13 +36,31 @@ public class ListaEstudiantes {
         for (int i = 0; i < listaEstudiantes.size(); i++) {
             System.out.println((i + 1) + ". " + listaEstudiantes.get(i));
         }
-        
+
     }
 
     public boolean eliminarPorCedula(String cedula) {
         for (Estudiante estudiante : listaEstudiantes) {
             if (estudiante.getCedula().equals(cedula)) {
-                return listaEstudiantes.remove(estudiante); 
+                return listaEstudiantes.remove(estudiante);
+            }
+        }
+        return false;
+    }
+
+    public Estudiante obtenerPorCarnet(int carnet) {
+        for (Estudiante estudiante : listaEstudiantes) {
+            if (estudiante.getCarnet() == carnet) {
+                return estudiante;
+            }
+        }
+        return null;
+    }
+
+    public boolean eliminarPorCarnet(int carnet) {
+        for (Estudiante estudiante : listaEstudiantes) {
+            if (estudiante.getCarnet() == carnet) {
+                return listaEstudiantes.remove(estudiante);
             }
         }
         return false;

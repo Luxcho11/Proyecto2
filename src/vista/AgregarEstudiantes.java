@@ -8,6 +8,8 @@ import clase.Estudiante;
 import clase.ListaEstudiantes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,10 +30,11 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         this.listaestudiantes = listaestudiantes;
     }
 
+    private DefaultListModel<String> modeloLista = new DefaultListModel<>();
+
     public AgregarEstudiantes() {
         listaestudiantes = new ListaEstudiantes();
         initComponents();
-
     }
 
     /**
@@ -68,6 +71,7 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
         ftfTelefono = new javax.swing.JFormattedTextField();
         ftfCarnet = new javax.swing.JFormattedTextField();
+        lstEstudiantes = new java.awt.List();
 
         setClosable(true);
         setTitle("Agregar Estudiante");
@@ -175,6 +179,11 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
         });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -304,15 +313,29 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
+        lstEstudiantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lstEstudiantesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(lstEstudiantes, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lstEstudiantes, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -335,63 +358,45 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txfCarreraActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
+        try {
+            int selectedIndex = lstEstudiantes.getSelectedIndex();
+            if (selectedIndex == -1) {
+                JOptionPane.showMessageDialog(this, "Selecciona un estudiante de la lista para eliminar");
+                return;
+            }
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (txfEmail.isEditable()) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            // Obtener el carnet del texto (antes del " -")
+            String item = lstEstudiantes.getItem(selectedIndex);
+            int carnet = Integer.parseInt(item.split(" -")[0].trim());
 
-            int carnet = Integer.parseInt(ftfCarnet.getText().toString());
-            LocalDate fechaIngreso = LocalDate.parse(ftfFechaIngreso.getText().toString(), formatter);
-            LocalDate fechaEgreso = LocalDate.parse(ftfFechaEgreso.getText().toString(), formatter);
-            String idCarrera = txfCarrera.getText().toString();
-            String cedula = txfCedula.getText().toString();
-            String nombre = txfNombre.getText().toString();
-            LocalDate fechaNacimiento = LocalDate.parse(ftfFechaNacimiento.getText().toString(), formatter);
-            String direccion = txfDireccion.getText().toString();
-            String email = txfEmail.getText().toString();
-            int telefono = Integer.parseInt(ftfTelefono.getText().toString());
+            boolean eliminado = listaestudiantes.eliminarPorCarnet(carnet);
+            if (eliminado) {
+                lstEstudiantes.remove(selectedIndex); // ✅ borra visualmente
+                JOptionPane.showMessageDialog(this, "Estudiante eliminado correctamente ✅");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró un estudiante con ese carnet ❌");
+            }
 
-            // Crear objeto estudiante
-            Estudiante estudiante = new Estudiante(
-                    carnet,
-                    fechaIngreso,
-                    fechaEgreso,
-                    idCarrera,
-                    cedula,
-                    nombre,
-                    fechaNacimiento,
-                    direccion,
-                    telefono,
-                    email
-            );
-            listaestudiantes.agregarEstudiante(estudiante);
+            // limpiar campos
+            ftfCarnet.setText("");
             ftfFechaIngreso.setText("");
             ftfFechaEgreso.setText("");
-            ftfFechaNacimiento.setText("");
-            ftfCarnet.setText("");
             txfCarrera.setText("");
             txfCedula.setText("");
             txfNombre.setText("");
+            ftfFechaNacimiento.setText("");
             txfDireccion.setText("");
             ftfTelefono.setText("");
             txfEmail.setText("");
 
-            ftfFechaIngreso.setEditable(true);
-            ftfFechaEgreso.setEditable(false);
-            ftfFechaNacimiento.setEditable(false);
-            ftfCarnet.setEditable(false);
-            txfCarrera.setEditable(false);
-            txfCedula.setEditable(false);
-            txfNombre.setEditable(false);
-            txfDireccion.setEditable(false);
-            ftfTelefono.setEditable(false);
-            txfEmail.setEditable(false);
-            btnBuscar.setEnabled(true);
-            btnEliminar.setEnabled(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar estudiante", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
-        } else {
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // Si NO está editable, este botón pasa a "modo edición"
+        if (!txfEmail.isEditable()) {
             ftfFechaIngreso.setEditable(true);
             ftfFechaEgreso.setEditable(true);
             ftfFechaNacimiento.setEditable(true);
@@ -404,7 +409,64 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
             txfEmail.setEditable(true);
             btnBuscar.setEnabled(false);
             btnEliminar.setEnabled(false);
+            return;
+        }
 
+        // Guardar
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        try {
+            int carnet = Integer.parseInt(ftfCarnet.getText().trim());
+            LocalDate fechaIngreso = LocalDate.parse(ftfFechaIngreso.getText().trim(), formatter);
+            LocalDate fechaEgreso = LocalDate.parse(ftfFechaEgreso.getText().trim(), formatter);
+            String idCarrera = txfCarrera.getText().trim();
+            String cedula = txfCedula.getText().trim();
+            String nombre = txfNombre.getText().trim();
+            LocalDate fechaNacimiento = LocalDate.parse(ftfFechaNacimiento.getText().trim(), formatter);
+            String direccion = txfDireccion.getText().trim();
+            String email = txfEmail.getText().trim();
+            int telefono = Integer.parseInt(ftfTelefono.getText().trim());
+
+            Estudiante estudiante = new Estudiante(
+                    carnet, fechaIngreso, fechaEgreso, idCarrera, cedula,
+                    nombre, fechaNacimiento, direccion, telefono, email
+            );
+
+            // Persistir en tu lista
+            listaestudiantes.agregarEstudiante(estudiante);
+
+            // **AÑADIR A LA LISTA DE LA DERECHA (java.awt.List)**
+            lstEstudiantes.add(estudiante.getCarnet() + " - " + estudiante.getNombre());
+
+            // Limpiar y bloquear edición
+            ftfFechaIngreso.setText("");
+            ftfFechaEgreso.setText("");
+            ftfFechaNacimiento.setText("");
+            ftfCarnet.setText("");
+            txfCarrera.setText("");
+            txfCedula.setText("");
+            txfNombre.setText("");
+            txfDireccion.setText("");
+            ftfTelefono.setText("");
+            txfEmail.setText("");
+
+            ftfFechaIngreso.setEditable(false);
+            ftfFechaEgreso.setEditable(false);
+            ftfFechaNacimiento.setEditable(false);
+            ftfCarnet.setEditable(false);
+            txfCarrera.setEditable(false);
+            txfCedula.setEditable(false);
+            txfNombre.setEditable(false);
+            txfDireccion.setEditable(false);
+            ftfTelefono.setEditable(false);
+            txfEmail.setEditable(false);
+            btnBuscar.setEnabled(true);
+            btnEliminar.setEnabled(true);
+
+            JOptionPane.showMessageDialog(this, "Estudiante guardado ✅");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Verifica números y fechas (formato dd-MM-yyyy).",
+                    "Datos inválidos", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -425,9 +487,41 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
 
     private void txfNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txfNombreKeyTyped
         char c = evt.getKeyChar();
-        if ((c < 'a' || c > 'z') && (c < 'A') | c > 'Z' && c != ' ') {
+        if (!Character.isLetter(c) && c != ' ') {
             evt.consume();
         }    }//GEN-LAST:event_txfNombreKeyTyped
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+
+        try {
+            int carnet = Integer.parseInt(ftfCarnet.getText().trim());
+            Estudiante estudiante = listaestudiantes.obtenerPorCarnet(carnet);
+
+            if (estudiante != null) {
+                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+                ftfFechaIngreso.setText(estudiante.getFechaIngreso().format(fmt));
+                ftfFechaEgreso.setText(estudiante.getFechaEgreso().format(fmt));
+                txfCarrera.setText(estudiante.getIdCarrera());
+                txfCedula.setText(estudiante.getCedula());
+                txfNombre.setText(estudiante.getNombre());
+                ftfFechaNacimiento.setText(estudiante.getFecNac().format(fmt));
+                txfDireccion.setText(estudiante.getDireccion());
+                ftfTelefono.setText(String.valueOf(estudiante.getTelefono()));
+                txfEmail.setText(estudiante.getEmail());
+
+                JOptionPane.showMessageDialog(this, "Estudiante encontrado");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró un estudiante con ese carnet");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Carnet inválido", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void lstEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lstEstudiantesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lstEstudiantesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -451,6 +545,7 @@ public class AgregarEstudiantes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblIdCarrera;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblTelefono;
+    private java.awt.List lstEstudiantes;
     private javax.swing.JTextField txfCarrera;
     private javax.swing.JTextField txfCedula;
     private javax.swing.JTextField txfDireccion;

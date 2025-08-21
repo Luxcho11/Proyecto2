@@ -38,7 +38,6 @@ public class MainFrame extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jToolBar1 = new javax.swing.JToolBar();
         btnAgregarEstudiantesToolBar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -55,17 +54,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btnAgregarEstudiantesToolBar);
-
-        jButton1.setText("Lista Estudiantes");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButton1);
 
         jDesktopPane1.setLayer(jToolBar1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -101,10 +89,6 @@ public class MainFrame extends javax.swing.JFrame {
         agregarestudiantes.setLocation(50, 50);
         agregarestudiantes.setVisible(true);
     }//GEN-LAST:event_btnAgregarEstudiantesToolBarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        agregarestudiantes.getListaestudiantes().listarEstudiantes();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,7 +127,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarEstudiantesToolBar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
